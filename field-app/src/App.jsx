@@ -88,7 +88,7 @@ function App() {
               disabled={loading || !selectedRegion}
               aria-busy={loading}
             >
-              {loading ? '⏳ Analysing…' : '🔍 Run Analysis'}
+              {loading ? '⏳ Analyzing…' : '🔍 Run Analysis'}
             </button>
 
             {!selectedRegion && (
