@@ -1,0 +1,186 @@
+/* ── Layout ────────────────────────────────────────────────────────────── */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+.app-header {
+  background: #166534;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.header-logo {
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+.header-title {
+  font-size: 1.05rem;
+  opacity: 0.85;
+  flex: 1;
+}
+.header-back {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.header-back:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Main grid ─────────────────────────────────────────────────────────── */
+.app-main {
+  display: flex;
+  flex: 1;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* ── Panels ────────────────────────────────────────────────────────────── */
+.panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  padding: 1.25rem;
+}
+.panel-map {
+  flex: 2 1 540px;
+  min-width: 0;
+}
+.panel-controls {
+  flex: 1 1 300px;
+  min-width: 260px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.panel-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.panel-icon { font-size: 1.1rem; }
+.panel-hint {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Map container ─────────────────────────────────────────────────────── */
+.map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+.roi-status {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: #166534;
+  font-weight: 600;
+}
+
+/* ── Divider ───────────────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1rem 0;
+}
+
+/* ── Run section ───────────────────────────────────────────────────────── */
+.run-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.btn-analyze {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #166534;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-analyze:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+.btn-analyze:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+.hint-text {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+}
+.result-box {
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.82rem;
+}
+.result-box pre {
+  margin-top: 0.4rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.result-ok {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+.result-stub {
+  background: #fef9c3;
+  border: 1px solid #fde047;
+  color: #854d0e;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.app-footer {
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .panel-controls {
+    max-width: 100%;
+    width: 100%;
+  }
+  .map-container {
+    height: 360px;
+  }
+}
