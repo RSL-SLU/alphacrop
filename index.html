@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlphaCrop – Agricultural AI Platform</title>
+  <style>
+    /* ── Reset & Variables ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-900: #14532d;
+      --green-700: #15803d;
+      --green-500: #22c55e;
+      --green-300: #86efac;
+      --green-100: #dcfce7;
+      --earth-800: #292524;
+      --earth-700: #44403c;
+      --earth-200: #e7e5e4;
+      --earth-100: #f5f5f4;
+      --sky-600:   #0284c7;
+      --sky-400:   #38bdf8;
+      --white:     #ffffff;
+      --radius:    0.75rem;
+      --shadow-md: 0 4px 24px rgba(0,0,0,.12);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--earth-800);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Utility ──────────────────────────────────────────────────────────── */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+    .section    { padding: 5rem 0; }
+    .tag {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--green-700);
+      background: var(--green-100);
+      border-radius: 99px;
+      padding: .25rem .85rem;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--earth-800);
+    }
+    .section-sub {
+      max-width: 640px;
+      margin: 1rem auto 0;
+      color: var(--earth-700);
+      font-size: 1.05rem;
+      text-align: center;
+    }
+    .center { text-align: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.75rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-primary { background: var(--green-700); color: var(--white); }
+    .btn-outline {
+      background: transparent;
+      color: var(--green-700);
+      border: 2px solid var(--green-700);
+    }
+
+    /* ── Nav ──────────────────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--earth-200);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 4rem;
+    }
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--green-700);
+      letter-spacing: -.02em;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .nav-logo span { color: var(--earth-800); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-weight: 500;
+      font-size: .95rem;
+      color: var(--earth-700);
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--green-700); }
+    .nav-cta { display: flex; gap: .75rem; }
+
+    /* ── Hero ─────────────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green-900) 0%, #1a3a2a 60%, var(--earth-800) 100%);
+      color: var(--white);
+      padding: 7rem 0 6rem;
+      text-align: center;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 10%, rgba(34,197,94,.18) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(34,197,94,.15);
+      border: 1px solid rgba(34,197,94,.35);
+      border-radius: 99px;
+      padding: .35rem 1rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--green-300);
+      margin-bottom: 1.5rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .hero-badge::before { content: '●'; color: var(--green-500); }
+    #hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      position: relative;
+    }
+    #hero h1 .accent { color: var(--green-500); }
+    .hero-sub {
+      margin: 1.5rem auto 2.5rem;
+      max-width: 640px;
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.75);
+      line-height: 1.7;
+      position: relative;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .hero-actions .btn-outline {
+      color: var(--white);
+      border-color: rgba(255,255,255,.4);
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--green-400, #4ade80);
+    }
+    .hero-stat span {
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── Overview ─────────────────────────────────────────────────────────── */
+    #overview {
+      background: var(--earth-100);
+    }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .overview-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border-top: 4px solid var(--green-500);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .overview-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .card-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: .75rem;
+      background: var(--green-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .overview-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .overview-card p  { color: var(--earth-700); font-size: .95rem; }
+
+    /* ── Foundation Model ─────────────────────────────────────────────────── */
+    #foundation {
+      background: var(--white);
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: .85rem; margin-top: 1.5rem; }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      font-size: .95rem;
+      color: var(--earth-700);
+    }
+    .feature-list li::before {
+      content: '✓';
+      flex-shrink: 0;
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 50%;
+      background: var(--green-500);
+      color: var(--white);
+      font-size: .7rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: .1rem;
+    }
+    .visual-box {
+      background: linear-gradient(135deg, var(--green-900) 0%, #1e4030 100%);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      color: var(--white);
+      box-shadow: var(--shadow-lg);
+      font-family: 'Courier New', monospace;
+      font-size: .85rem;
+      line-height: 1.8;
+    }
+    .visual-box .comment  { color: var(--green-300); }
+    .visual-box .keyword  { color: var(--sky-400); }
+    .visual-box .string   { color: #fbbf24; }
+    .visual-box .number   { color: #f472b6; }
+
+    /* ── Data ─────────────────────────────────────────────────────────────── */
+    #data {
+      background: linear-gradient(180deg, var(--green-900) 0%, #182e22 100%);
+      color: var(--white);
+    }
+    #data .section-title { color: var(--white); }
+    #data .section-sub   { color: rgba(255,255,255,.65); }
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .data-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      text-align: center;
+      transition: background .2s;
+    }
+    .data-card:hover { background: rgba(255,255,255,.12); }
+    .data-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .data-card h3 { font-size: 1rem; font-weight: 700; color: var(--green-300); margin-bottom: .4rem; }
+    .data-card p  { font-size: .9rem; color: rgba(255,255,255,.65); }
+    .data-total {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.25);
+      border-radius: var(--radius);
+    }
+    .data-total strong { font-size: 3.5rem; font-weight: 900; color: var(--green-500); }
+    .data-total p { color: rgba(255,255,255,.65); margin-top: .25rem; }
+
+    /* ── Map ──────────────────────────────────────────────────────────────── */
+    #map-monitor {
+      background: var(--earth-100);
+    }
+    .map-mockup {
+      margin-top: 3rem;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--earth-200);
+      background: var(--white);
+    }
+    .map-toolbar {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .85rem 1.25rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--earth-200);
+      flex-wrap: wrap;
+    }
+    .map-tool-btn {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem .9rem;
+      border-radius: 99px;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--earth-200);
+      background: var(--white);
+      color: var(--earth-700);
+      transition: all .15s;
+    }
+    .map-tool-btn.active {
+      background: var(--green-700);
+      color: var(--white);
+      border-color: var(--green-700);
+    }
+    .map-body {
+      position: relative;
+      height: 360px;
+      background:
+        linear-gradient(rgba(20,83,45,.85), rgba(20,83,45,.85)),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,.04) 40px, rgba(255,255,255,.04) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,.04) 40px, rgba(255,255,255,.04) 41px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+    }
+    .map-overlay-label {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,.65);
+      color: var(--white);
+      border-radius: .5rem;
+      padding: .5rem .85rem;
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    .map-overlay-label span { color: var(--green-300); font-weight: 700; }
+    .map-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: var(--green-700);
+      color: var(--white);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+    }
+    .step-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: .25rem; }
+    .step-card p  { font-size: .85rem; color: var(--earth-700); }
+
+    /* ── LLM Interface ────────────────────────────────────────────────────── */
+    #llm {
+      background: var(--white);
+    }
+    .llm-mockup {
+      margin-top: 3rem;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--earth-200);
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .llm-header {
+      background: var(--green-900);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .llm-header .dot { width: .6rem; height: .6rem; border-radius: 50%; }
+    .llm-chat {
+      background: var(--earth-100);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .chat-msg {
+      max-width: 80%;
+      padding: .85rem 1.1rem;
+      border-radius: 1rem;
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+      background: var(--green-700);
+      color: var(--white);
+      border-bottom-right-radius: .25rem;
+    }
+    .chat-msg.bot {
+      align-self: flex-start;
+      background: var(--white);
+      color: var(--earth-800);
+      border-bottom-left-radius: .25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .chat-msg.bot .sender {
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--green-700);
+      margin-bottom: .25rem;
+    }
+    .llm-input {
+      background: var(--white);
+      padding: 1rem 1.5rem;
+      display: flex;
+      gap: .75rem;
+      border-top: 1px solid var(--earth-200);
+    }
+    .llm-input input {
+      flex: 1;
+      border: 1.5px solid var(--earth-200);
+      border-radius: 99px;
+      padding: .6rem 1.1rem;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .llm-input input:focus { border-color: var(--green-500); }
+    .llm-send {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: var(--green-700);
+      color: var(--white);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .llm-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .llm-feature {
+      padding: 1.25rem;
+      background: var(--earth-100);
+      border-radius: var(--radius);
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+    }
+    .llm-feature .fi { font-size: 1.4rem; }
+    .llm-feature h4 { font-size: .9rem; font-weight: 700; margin-bottom: .2rem; }
+    .llm-feature p  { font-size: .82rem; color: var(--earth-700); }
+
+    /* ── Timeline / How it works ─────────────────────────────────────────── */
+    #how {
+      background: var(--earth-100);
+    }
+    .timeline {
+      position: relative;
+      max-width: 720px;
+      margin: 3rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 1.5rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--green-500), var(--green-300));
+    }
+    .tl-item {
+      display: flex;
+      gap: 1.5rem;
+      padding-bottom: 2.5rem;
+    }
+    .tl-dot {
+      flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: var(--green-700);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      z-index: 1;
+      box-shadow: 0 0 0 4px var(--earth-100);
+    }
+    .tl-content {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-md);
+      flex: 1;
+    }
+    .tl-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; }
+    .tl-content p  { font-size: .9rem; color: var(--earth-700); }
+
+    /* ── CTA ──────────────────────────────────────────────────────────────── */
+    #cta {
+      background: linear-gradient(135deg, var(--green-900), #1a3a2a);
+      color: var(--white);
+      text-align: center;
+      padding: 6rem 0;
+    }
+    #cta .section-title { color: var(--white); }
+    #cta .section-sub   { color: rgba(255,255,255,.65); margin-bottom: 2.5rem; }
+    #cta .btn-primary   { background: var(--green-500); color: var(--earth-800); }
+    #cta .btn-outline   { border-color: rgba(255,255,255,.35); color: var(--white); }
+
+    /* ── Footer ───────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--earth-800);
+      color: rgba(255,255,255,.6);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: .85rem;
+    }
+    footer strong { color: var(--green-400, #4ade80); }
+
+    /* ── Responsive hide nav links ────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      #hero { padding: 5rem 0 4rem; }
+      .hero-stats { gap: 2rem; }
+      .two-col { gap: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- NAV -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo">🌿 Alpha<span>Crop</span></a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#foundation">Foundation Model</a></li>
+      <li><a href="#data">Dataset</a></li>
+      <li><a href="#map-monitor">Farm Monitor</a></li>
+      <li><a href="#llm">LLM Interface</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#cta" class="btn btn-primary">Get Early Access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">Proof of Concept · Agricultural AI</div>
+    <h1>The <span class="accent">Foundation Model</span><br/>for Modern Agriculture</h1>
+    <p class="hero-sub">
+      AlphaCrop fuses satellite imagery, drone footage, and IoT sensor data
+      with a self-supervised Agricultural Foundation Model — giving every farmer
+      AI-powered crop-disease detection and real-time field monitoring.
+    </p>
+    <div class="hero-actions">
+      <a href="#overview" class="btn btn-primary">Explore the Platform ↓</a>
+      <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-outline">View on GitHub</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>50K+</strong><span>Training Samples</span></div>
+      <div class="hero-stat"><strong>3</strong><span>Data Modalities</span></div>
+      <div class="hero-stat"><strong>1</strong><span>Unified Foundation Model</span></div>
+      <div class="hero-stat"><strong>∞</strong><span>Farmable Polygons</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="overview" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Platform Overview</div>
+      <h2 class="section-title">Everything a Smart Farm Needs</h2>
+      <p class="section-sub">
+        AlphaCrop brings together cutting-edge machine learning with practical
+        agronomic tools in a single, unified platform.
+      </p>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="card-icon">🧠</div>
+        <h3>Agricultural Foundation Model</h3>
+        <p>A self-supervised model pre-trained on multi-modal farm data, enabling few-shot transfer to any new crop or region.</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🛰️</div>
+        <h3>Multi-Modal Data Fusion</h3>
+        <p>Combines satellite multispectral imagery, drone RGB/thermal, and IoT ground-sensor streams into a single representation.</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🗺️</div>
+        <h3>Polygon Farm Monitor</h3>
+        <p>Farmers draw their field boundary on a live map; the platform instantly delivers health scores, disease alerts, and yield forecasts.</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">💬</div>
+        <h3>Natural-Language Interface</h3>
+        <p>Ask questions about your farm in plain language. The LLM layer translates insights from the foundation model into actionable advice.</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">🔬</div>
+        <h3>Disease &amp; Health Labels</h3>
+        <p>50,000 annotated samples covering common crop diseases provide rich supervision signals on top of the self-supervised pre-training.</p>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon">⚡</div>
+        <h3>Real-Time Alerts</h3>
+        <p>Continuous satellite revisits and IoT telemetry trigger instant notifications before a disease outbreak spreads across the field.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FOUNDATION MODEL -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="foundation" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Core Technology</div>
+      <h2 class="section-title">Agricultural Foundation Model</h2>
+      <p class="section-sub">
+        A large-scale self-supervised model learns rich representations from
+        unlabeled farm data before being fine-tuned on labeled disease annotations.
+      </p>
+    </div>
+    <div class="two-col">
+      <!-- text side -->
+      <div>
+        <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:.75rem;">Self-Supervised Pre-Training</h3>
+        <p style="color:var(--earth-700);font-size:.95rem;">
+          Inspired by advances in language and vision foundation models, AlphaCrop's
+          backbone is pre-trained with masked-patch prediction and contrastive objectives
+          across all three modalities — no labels required.
+        </p>
+        <ul class="feature-list">
+          <li>Masked auto-encoder on satellite patches (NDVI, RGB, SWIR bands)</li>
+          <li>Contrastive drone-vs-satellite alignment for the same geo-location</li>
+          <li>Temporal IoT sensor embeddings fused via cross-attention</li>
+          <li>Fine-tuned end-to-end on 50K labeled disease / health samples</li>
+          <li>Supports few-shot adaptation to new crop varieties with minimal data</li>
+        </ul>
+        <div style="margin-top:2rem;">
+          <a href="#data" class="btn btn-primary">Explore the Dataset →</a>
+        </div>
+      </div>
+      <!-- visual side -->
+      <div class="visual-box">
+        <div><span class="comment"># AlphaCrop Foundation Model</span></div>
+        <div><span class="keyword">class</span> AlphaCropEncoder:</div>
+        <div>&nbsp;&nbsp;<span class="comment"># Multi-modal backbone</span></div>
+        <div>&nbsp;&nbsp;modalities = [</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"satellite"</span>,   <span class="comment"># 13-band MSI</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"drone"</span>,       <span class="comment"># RGB + thermal</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"iot_sensors"</span>, <span class="comment"># soil, humidity</span></div>
+        <div>&nbsp;&nbsp;]</div>
+        <div>&nbsp;&nbsp;pre_train_samples = <span class="number">50_000</span></div>
+        <div>&nbsp;&nbsp;objective = <span class="string">"masked_patch_pred"</span></div>
+        <br/>
+        <div>&nbsp;&nbsp;<span class="keyword">def</span> forward(self, x):</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;emb = self.fuse(x)   <span class="comment"># cross-attn</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> self.head(emb)</div>
+        <br/>
+        <div><span class="comment"># Output: disease proba, health score</span></div>
+        <div><span class="comment"># Fine-tune in &lt; 5 min on new crop 🌾</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- DATA -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="data" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag" style="background:rgba(134,239,172,.15);color:var(--green-300);">Training Dataset</div>
+      <h2 class="section-title">50,000 Labeled Farm Samples</h2>
+      <p class="section-sub">
+        Multi-modal, multi-crop data from three complementary sensing modalities —
+        each annotated with disease class and crop-health score by agronomists.
+      </p>
+    </div>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="icon">🛰️</div>
+        <h3>Satellite Imagery</h3>
+        <p>Multispectral tiles (Sentinel-2 / Planet) at 10 m resolution with 13 spectral bands including NDVI, EVI, and SWIR indices.</p>
+      </div>
+      <div class="data-card">
+        <div class="icon">🚁</div>
+        <h3>Drone Footage</h3>
+        <p>High-resolution RGB and thermal drone flights at field scale, capturing early-stage disease patterns invisible from space.</p>
+      </div>
+      <div class="data-card">
+        <div class="icon">📡</div>
+        <h3>IoT Sensors</h3>
+        <p>In-field soil moisture, temperature, humidity, and nutrient sensors providing continuous ground-truth environmental context.</p>
+      </div>
+      <div class="data-card">
+        <div class="icon">🏷️</div>
+        <h3>Expert Annotations</h3>
+        <p>Disease class labels (blast, blight, rust, wilt, healthy) and crop-health scores assigned by certified agronomists.</p>
+      </div>
+    </div>
+    <div class="data-total">
+      <strong>50,000+</strong>
+      <p>Fully annotated multi-modal training samples across 12 crop species and 5 continents</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MAP MONITOR -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="map-monitor" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Farm Monitoring</div>
+      <h2 class="section-title">Draw a Polygon. Monitor Your Farm.</h2>
+      <p class="section-sub">
+        No technical skills required. Farmers simply outline their field on the
+        interactive map and AlphaCrop takes care of the rest.
+      </p>
+    </div>
+
+    <!-- Interactive map mockup -->
+    <div class="map-mockup">
+      <div class="map-toolbar">
+        <button class="map-tool-btn active">✏️ Draw Polygon</button>
+        <button class="map-tool-btn">📍 Add Marker</button>
+        <button class="map-tool-btn">📏 Measure Area</button>
+        <button class="map-tool-btn">🗑️ Clear</button>
+        <button class="map-tool-btn" style="margin-left:auto;">🔍 Analyze Farm →</button>
+      </div>
+      <div class="map-body">
+        <!-- SVG map visualization -->
+        <svg class="map-svg" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid lines -->
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="360" fill="url(#grid)"/>
+
+          <!-- Farm polygon (field boundary) -->
+          <polygon
+            points="200,80 420,60 500,130 460,260 300,290 160,210"
+            fill="rgba(34,197,94,0.22)"
+            stroke="#22c55e"
+            stroke-width="2.5"
+            stroke-dasharray="8 4"
+          />
+
+          <!-- Health heat-map blobs inside field -->
+          <ellipse cx="300" cy="160" rx="60" ry="40" fill="rgba(34,197,94,0.35)"/>
+          <ellipse cx="380" cy="130" rx="45" ry="30" fill="rgba(250,204,21,0.35)"/>
+          <ellipse cx="340" cy="220" rx="55" ry="35" fill="rgba(239,68,68,0.30)"/>
+          <ellipse cx="240" cy="200" rx="40" ry="28" fill="rgba(34,197,94,0.28)"/>
+
+          <!-- Polygon anchor points -->
+          <circle cx="200" cy="80"  r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <circle cx="420" cy="60"  r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <circle cx="500" cy="130" r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <circle cx="460" cy="260" r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <circle cx="300" cy="290" r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <circle cx="160" cy="210" r="5" fill="#22c55e" stroke="white" stroke-width="2"/>
+
+          <!-- Disease marker -->
+          <circle cx="340" cy="220" r="10" fill="rgba(239,68,68,0.8)" stroke="white" stroke-width="2"/>
+          <text x="340" y="224" text-anchor="middle" font-size="10" fill="white" font-weight="bold">!</text>
+
+          <!-- Label for field -->
+          <text x="330" y="175" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.85)" font-weight="600">Field A — 12.4 ha</text>
+
+          <!-- Compass rose -->
+          <g transform="translate(740,40)">
+            <circle r="18" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <text x="0" y="-5" text-anchor="middle" font-size="9" fill="white" font-weight="700">N</text>
+            <line x1="0" y1="-14" x2="0" y2="14" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+            <line x1="-14" y1="0" x2="14" y2="0" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+          </g>
+        </svg>
+
+        <div class="map-overlay-label">
+          Health Score: <span>78%</span><br/>
+          Disease Risk: <span style="color:#f87171;">Moderate</span><br/>
+          Last Updated: <span>2 min ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Draw Your Field</h4>
+          <p>Click points on the satellite basemap to trace your exact field boundary.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div>
+          <h4>Automatic Data Pull</h4>
+          <p>AlphaCrop fetches the latest satellite, drone, and IoT data for your polygon.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div>
+          <h4>AI Analysis</h4>
+          <p>The foundation model scores every pixel inside your field for disease risk and health.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div>
+          <h4>Get Insights</h4>
+          <p>Receive a health dashboard, disease alerts, and treatment recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- LLM INTERFACE -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="llm" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">LLM Interface</div>
+      <h2 class="section-title">Ask Your Farm Anything</h2>
+      <p class="section-sub">
+        AlphaCrop's natural-language interface bridges the gap between complex
+        AI outputs and practical farming decisions — in any language.
+      </p>
+    </div>
+
+    <div class="llm-mockup">
+      <div class="llm-header">
+        <div class="dot" style="background:#ef4444;"></div>
+        <div class="dot" style="background:#f59e0b;"></div>
+        <div class="dot" style="background:#22c55e;"></div>
+        <span style="margin-left:.5rem;">AlphaCrop AI Assistant</span>
+        <span style="margin-left:auto;font-size:.75rem;font-weight:400;color:rgba(255,255,255,.55);">🟢 Online</span>
+      </div>
+      <div class="llm-chat">
+        <div class="chat-msg user">
+          What is the disease risk in the north-east corner of Field A this week?
+        </div>
+        <div class="chat-msg bot">
+          <div class="sender">🌿 AlphaCrop</div>
+          The north-east zone of <strong>Field A</strong> shows a <strong>68% probability of early-stage wheat blast</strong> based on satellite NDVI anomalies and elevated canopy temperature from your drone flight on Monday. Soil moisture from your IoT sensors is 14% above baseline, which further elevates risk. I recommend a targeted fungicide application within the next 48 hours.
+        </div>
+        <div class="chat-msg user">
+          How much area is affected, and what treatment do you suggest?
+        </div>
+        <div class="chat-msg bot">
+          <div class="sender">🌿 AlphaCrop</div>
+          Approximately <strong>2.3 hectares</strong> (19% of Field A) show symptomatic pixels. For wheat blast (<em>Magnaporthe oryzae</em>), I suggest applying <strong>Tricyclazole 75 WP at 0.6 kg/ha</strong>. Avoid application if wind speed exceeds 15 km/h. Would you like me to generate a variable-rate prescription map for your drone sprayer?
+        </div>
+      </div>
+      <div class="llm-input">
+        <input type="text" placeholder="Ask about your farm, crops, weather, treatments…" readonly/>
+        <button class="llm-send">➤</button>
+      </div>
+    </div>
+
+    <div class="llm-features">
+      <div class="llm-feature">
+        <div class="fi">🌐</div>
+        <div>
+          <h4>Multilingual</h4>
+          <p>Supports local languages and dialects so every farmer can access AI insights.</p>
+        </div>
+      </div>
+      <div class="llm-feature">
+        <div class="fi">📋</div>
+        <div>
+          <h4>Prescription Generation</h4>
+          <p>Converts model predictions into actionable treatment and spraying prescriptions.</p>
+        </div>
+      </div>
+      <div class="llm-feature">
+        <div class="fi">📊</div>
+        <div>
+          <h4>Trend Analysis</h4>
+          <p>Queries historical data to identify long-term health trends across seasons.</p>
+        </div>
+      </div>
+      <div class="llm-feature">
+        <div class="fi">🔔</div>
+        <div>
+          <h4>Proactive Alerts</h4>
+          <p>LLM-composed push notifications explain alerts in simple, non-technical language.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HOW IT WORKS -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="how" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">How It Works</div>
+      <h2 class="section-title">From Raw Data to Farm Insights</h2>
+      <p class="section-sub">
+        A clear, end-to-end pipeline from multi-modal data collection to
+        farmer-facing recommendations.
+      </p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-content">
+          <h3>Multi-Modal Data Collection</h3>
+          <p>Satellite images, drone flights, and IoT sensor readings are continuously ingested, geo-referenced, and time-stamped into the AlphaCrop data lake.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-content">
+          <h3>Self-Supervised Pre-Training</h3>
+          <p>The Foundation Model learns visual-spatial-temporal representations from 50K unlabeled multi-modal samples using masked-patch and contrastive objectives.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-content">
+          <h3>Supervised Fine-Tuning on Disease Labels</h3>
+          <p>Expert-annotated disease and health labels are used to fine-tune the model head, enabling precise classification and health scoring.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-content">
+          <h3>Farmer Draws Field Polygon</h3>
+          <p>Via the web app, a farmer traces their field on a satellite basemap. The polygon triggers on-demand inference for that specific region.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-content">
+          <h3>LLM Synthesis &amp; Delivery</h3>
+          <p>Model outputs are passed to the LLM layer, which composes human-readable insights, treatment plans, and alerts delivered via the chat interface or push notification.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- CTA -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <div class="tag" style="background:rgba(134,239,172,.15);color:var(--green-300);">Early Access</div>
+    <h2 class="section-title">Ready to Grow Smarter?</h2>
+    <p class="section-sub">
+      Join the AlphaCrop early-access program and be among the first farmers and
+      researchers to harness the power of Agricultural Foundation Models.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-primary">Request Early Access</a>
+      <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-outline">Read the Docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <p>© 2026 <strong>AlphaCrop</strong> · Proof of Concept · Built at RSL-SLU</p>
+    <p style="margin-top:.4rem;">
+      <a href="https://github.com/RSL-SLU/alphacrop" style="color:var(--green-300);">GitHub</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
