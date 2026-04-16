@@ -34,7 +34,6 @@ function App() {
     <div className="app-wrapper">
       <header className="app-header">
         <div className="header-inner">
-          <img src="/images/rsl-logo-transparent.png" alt="RSL AlphaCrop logo" className="header-logo-img" />
           <span className="header-logo">🌿 AlphaCrop</span>
           <span className="header-title">Field Analysis App</span>
           <a
@@ -110,10 +109,26 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <div className="footer-inner">
-          <img src="/images/rsl-logo-transparent.png" alt="RSL AlphaCrop logo" className="footer-logo-img" />
-          <p>© {new Date().getFullYear()} AlphaCrop · Proof of Concept</p>
+        <div className="footer-branding">
+          <a href="https://www.remotesensinglab.org" target="_blank" rel="noopener noreferrer">
+            <img
+              src="/images/rsl-logo-transparent.png"
+              alt="Remote Sensing Lab logo"
+              className="footer-logo"
+            />
+          </a>
         </div>
+        <p>© {new Date().getFullYear()} <strong>AlphaCrop</strong> · Proof of Concept · Built at RSL-SLU</p>
+        <p className="footer-github-wrap">
+          <a
+            href="https://github.com/RSL-SLU/alphacrop"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-github-link"
+          >
+            GitHub
+          </a>
+        </p>
       </footer>
     </div>
   );
