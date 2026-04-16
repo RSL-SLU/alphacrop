@@ -589,6 +589,71 @@
     .tl-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; }
     .tl-content p  { font-size: .9rem; color: var(--earth-700); }
 
+    /* ── Partners ─────────────────────────────────────────────────────────── */
+    #partners {
+      background: var(--white);
+    }
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .partner-card {
+      background: var(--earth-100);
+      border: 1px solid var(--earth-200);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .9rem;
+    }
+    .partner-logo {
+      width: min(170px, 80%);
+      height: 56px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+    .partner-card h3 {
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+    .partner-card a {
+      color: var(--green-700);
+      font-weight: 700;
+      font-size: .86rem;
+    }
+
+    /* ── Team ─────────────────────────────────────────────────────────────── */
+    #team {
+      background: var(--earth-100);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .team-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--earth-200);
+      box-shadow: var(--shadow-md);
+      padding: 1.25rem;
+    }
+    .team-card h3 {
+      font-size: 1rem;
+      margin-bottom: .35rem;
+      line-height: 1.3;
+    }
+    .team-role {
+      font-size: .86rem;
+      color: var(--green-700);
+      font-weight: 700;
+    }
+
     /* ── CTA ──────────────────────────────────────────────────────────────── */
     #cta {
       background: linear-gradient(135deg, var(--green-900), #1a3a2a);
@@ -610,6 +675,35 @@
       font-size: .85rem;
     }
     footer strong { color: var(--green-400, #4ade80); }
+    .footer-branding {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      width: clamp(110px, 18vw, 170px);
+      height: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.3));
+    }
+    .footer-meta {
+      text-align: left;
+      color: rgba(255,255,255,.78);
+      line-height: 1.35;
+    }
+    .footer-meta .lab-name {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .footer-meta .uni-name {
+      font-size: .85rem;
+      color: var(--green-300);
+      letter-spacing: .01em;
+    }
 
     /* ── Responsive hide nav links ────────────────────────────────────────── */
     @media (max-width: 640px) {
@@ -617,6 +711,7 @@
       #hero { padding: 5rem 0 4rem; }
       .hero-stats { gap: 2rem; }
       .two-col { gap: 2.5rem; }
+      .footer-meta { text-align: center; }
     }
   </style>
 </head>
@@ -633,10 +728,11 @@
       <li><a href="#foundation">Foundation Model</a></li>
       <li><a href="#data">Dataset</a></li>
       <li><a href="#map-monitor">Farm Monitor</a></li>
-      <li><a href="#llm">LLM Interface</a></li>
+      <li><a href="#partners">Partners</a></li>
+      <li><a href="#team">Team</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="#cta" class="btn btn-primary">Get Early Access</a>
+      <a href="mailto:vasit.sagan@slu.edu" class="btn btn-primary">Contact</a>
     </div>
   </div>
 </nav>
@@ -656,7 +752,7 @@
     <div class="hero-actions">
       <a href="#overview" class="btn btn-primary">Explore the Platform ↓</a>
       <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-outline">View on GitHub</a>
-      <a href="/field-app/" target="_blank" rel="noopener noreferrer" class="btn btn-field-app">🌾 Try the Field Analysis App</a>
+      <a href="/field-app" target="_blank" rel="noopener noreferrer" class="btn btn-field-app">🌾 Try the Field Analysis App</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>50K+</strong><span>Training Samples</span></div>
@@ -1059,18 +1155,89 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PARTNERS -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="partners" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Collaborating Partners</div>
+      <h2 class="section-title">Industry and Academic Partners</h2>
+      <p class="section-sub">
+        AlphaCrop is developed in collaboration with seed industry, grower
+        associations, and university research partners.
+      </p>
+    </div>
+    <div class="partners-grid">
+      <article class="partner-card">
+        <img class="partner-logo" src="/images/gdm-logo.png" alt="GDM Seeds logo" />
+        <h3>GDM Seeds</h3>
+        <a href="https://gdmseeds.com" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+      </article>
+      <article class="partner-card">
+        <img class="partner-logo" src="/images/mosoy-logo.png" alt="Missouri Soybean Association logo" />
+        <h3>Missouri Soybean Association</h3>
+        <a href="https://mosoy.org" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+      </article>
+      <article class="partner-card">
+        <img class="partner-logo" src="/images/ku-logo.png" alt="University of Kentucky logo" />
+        <h3>University of Kentucky</h3>
+        <a href="https://www.uky.edu" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- TEAM -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="team" class="section">
+  <div class="container">
+    <div class="center">
+      <div class="tag">Project Team</div>
+      <h2 class="section-title">Research Team</h2>
+      <p class="section-sub">
+        Meet the scientists and researchers driving AlphaCrop at the Remote
+        Sensing Lab, Saint Louis University.
+      </p>
+    </div>
+    <div class="team-grid">
+      <article class="team-card">
+        <h3>Dr. Vasit Sagan</h3>
+        <p class="team-role">Principal Investigator</p>
+      </article>
+      <article class="team-card">
+        <h3>Dr. Gregory Triplett</h3>
+        <p class="team-role">Co-Investigator - Professor</p>
+      </article>
+      <article class="team-card">
+        <h3>Dr. Felipe Lopes</h3>
+        <p class="team-role">Co-Investigator - Research Scientist</p>
+      </article>
+      <article class="team-card">
+        <h3>Dr. Hadi Akbarpour</h3>
+        <p class="team-role">Co-Investigator - Professor</p>
+      </article>
+      <article class="team-card">
+        <h3>Mustafizur</h3>
+        <p class="team-role">PhD Student</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- CTA -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section id="cta">
   <div class="container">
-    <div class="tag" style="background:rgba(134,239,172,.15);color:var(--green-300);">Early Access</div>
-    <h2 class="section-title">Ready to Grow Smarter?</h2>
+    <div class="tag" style="background:rgba(134,239,172,.15);color:var(--green-300);">Contact</div>
+    <h2 class="section-title">Get in Touch</h2>
     <p class="section-sub">
-      Join the AlphaCrop early-access program and be among the first farmers and
-      researchers to harness the power of Agricultural Foundation Models.
+      For collaboration opportunities, project information, or partnership
+      inquiries, please reach out directly to Dr. Vasit Sagan.
     </p>
     <div class="hero-actions">
-      <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-primary">Request Early Access</a>
+      <a href="mailto:vasit.sagan@slu.edu" class="btn btn-primary">Email</a>
       <a href="https://github.com/RSL-SLU/alphacrop" class="btn btn-outline">Read the Docs</a>
     </div>
   </div>
@@ -1081,6 +1248,9 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <footer>
   <div class="container">
+    <div class="footer-branding">
+      <img src="/images/rsl-logo-transparent.png" alt="Remote Sensing Lab logo" class="footer-logo" />
+    </div>
     <p>© 2026 <strong>AlphaCrop</strong> · Proof of Concept · Built at RSL-SLU</p>
     <p style="margin-top:.4rem;">
       <a href="https://github.com/RSL-SLU/alphacrop" style="color:var(--green-300);">GitHub</a>

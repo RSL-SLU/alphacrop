@@ -6,6 +6,22 @@
       "use": "@vercel/static"
     },
     {
+      "src": "public/images/gdm-logo.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/images/ku-logo.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/images/mosoy-logo.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/images/rsl-logo-transparent.png",
+      "use": "@vercel/static"
+    },
+    {
       "src": "field-app/package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -15,12 +31,19 @@
   ],
   "routes": [
     {
-      "src": "^/field-app$",
+      "src": "^/images/(.*)$",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "^/field-app/?$",
       "dest": "/field-app/dist/index.html"
     },
     {
       "src": "^/field-app/(.*)$",
       "dest": "/field-app/dist/$1"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "^/$",

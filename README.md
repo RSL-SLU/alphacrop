@@ -16,23 +16,44 @@ AlphaCrop is an advanced open-source platform for field-level crop analysis, com
 
 ---
 
-## Workflow
+## Local Development Workflow
 
-### 1. Start and Use the Web App
+### 1. Run the Landing Page (repo root)
+
+From the repository root, start a simple static server for `index.html`:
+
+```bash
+# Option A (Node)
+npx serve . -l 8080
+
+# Option B (Python)
+python -m http.server 8080
+```
+
+Landing page URL: `http://localhost:8080`
+
+### 2. Run the Field App (separate terminal)
+
+In a second terminal:
 
 ```bash
 cd field-app
 npm install
 npm run dev
-# App opens at http://localhost:3000
 ```
 
-1. Draw your region of interest on the map.
-2. Choose a classification model.
-3. Select data sources (Satellite and/or IoT).
-4. Run the analysis.
+Field app URL: `http://localhost:3000/field-app/`
 
-### 2. Backend API Connection
+### 3. Use Both Together
+
+1. Open the landing page at `http://localhost:8080`.
+2. Use the Field App button/link to open `http://localhost:3000/field-app/` in development.
+3. In the field app, draw your region of interest on the map.
+4. Choose a classification model.
+5. Select data sources (Satellite and/or IoT).
+6. Run the analysis.
+
+### 4. Backend API Connection
 
 To connect to your Python backend:
 
@@ -47,7 +68,30 @@ To connect to your Python backend:
 
 See the minimal backend example in `field-app/README.md` for FastAPI code.
 
-### 3. Models
+### Production Deployment with Vercel
+
+Instead of running two servers locally, you can deploy the entire project to Vercel:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy (from repo root)
+vercel
+```
+
+Vercel automatically:
+
+1. **Builds** the landing page (`index.html`) and the field app (`field-app/dist/`) once.
+2. **Routes** traffic via `vercel.json`:
+   - `/` → landing page
+   - `/field-app/*` → field app
+   - `/images/*` → public images
+3. **Hosts** both under a single domain (e.g., `alphacrop.vercel.app`).
+
+The field app's `base: "/field-app/"` in `vite.config.js` ensures all assets resolve correctly in production.
+
+### 5. Models
 
 | ID         | Name                          | Status             |
 |------------|-------------------------------|--------------------|
