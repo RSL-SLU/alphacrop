@@ -67,6 +67,12 @@
       text-align: center;
     }
     .center { text-align: center; }
+    .nav-logo-img {
+      width: clamp(110px, 18vw, 170px);;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1) drop-shadow(0 1px 4px rgba(0,0,0,.3));
+    }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -172,7 +178,7 @@
       letter-spacing: .06em;
       text-transform: uppercase;
     }
-    .hero-badge::before { content: '●'; color: var(--green-500); }
+    .hero-badge::before { color: var(--green-500); }
     #hero h1 {
       font-size: clamp(2.5rem, 7vw, 5rem);
       font-weight: 900;
@@ -722,7 +728,9 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <nav>
   <div class="container nav-inner">
-    <a href="#hero" class="nav-logo">🌿 Alpha<span>Crop</span></a>
+    <a href="#hero" class="nav-logo">
+      🌿 Alpha<span>Crop</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#overview">Overview</a></li>
       <li><a href="#foundation">Foundation Model</a></li>
@@ -742,7 +750,15 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section id="hero">
   <div class="container">
-    <div class="hero-badge">Proof of Concept · Agricultural AI</div>
+    <div class="hero-badge">
+      <a href="https://www.remotesensinglab.org">
+        <img src="/images/rsl-logo-transparent.png" alt="RSL AlphaCrop logo" class="nav-logo-img" />
+      </a>
+    </div>
+    <br>
+    <div class="hero-badge">
+      Proof of Concept · Agricultural AI
+    </div>
     <h1>The <span class="accent">Foundation Model</span><br/>for Modern Agriculture</h1>
     <p class="hero-sub">
       AlphaCrop fuses satellite imagery, drone footage, and IoT sensor data
@@ -1169,19 +1185,19 @@
     </div>
     <div class="partners-grid">
       <article class="partner-card">
-        <img class="partner-logo" src="/images/gdm-logo.png" alt="GDM Seeds logo" />
-        <h3>GDM Seeds</h3>
-        <a href="https://gdmseeds.com" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+        <a href="https://gdmseeds.com" target="_blank" rel="noopener noreferrer">
+          <img class="partner-logo" src="/images/gdm-logo.png" alt="GDM Seeds logo" />
+        </a>
       </article>
       <article class="partner-card">
-        <img class="partner-logo" src="/images/mosoy-logo.png" alt="Missouri Soybean Association logo" />
-        <h3>Missouri Soybean Association</h3>
-        <a href="https://mosoy.org" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+        <a href="https://mosoy.org" target="_blank" rel="noopener noreferrer"></a>
+          <img class="partner-logo" src="/images/mosoy-logo.png" alt="Missouri Soybean Association logo" />
+        </a>
       </article>
       <article class="partner-card">
-        <img class="partner-logo" src="/images/ku-logo.png" alt="University of Kentucky logo" />
-        <h3>University of Kentucky</h3>
-        <a href="https://www.uky.edu" target="_blank" rel="noopener noreferrer">Visit Partner Site</a>
+        <a href="https://www.uky.edu" target="_blank" rel="noopener noreferrer">
+          <img class="partner-logo" src="/images/ku-logo.png" alt="University of Kentucky logo" />
+        </a>
       </article>
     </div>
   </div>
@@ -1249,7 +1265,9 @@
 <footer>
   <div class="container">
     <div class="footer-branding">
-      <img src="/images/rsl-logo-transparent.png" alt="Remote Sensing Lab logo" class="footer-logo" />
+      <a href="https://www.remotesensinglab.org">
+        <img src="/images/rsl-logo-transparent.png" alt="Remote Sensing Lab logo" class="footer-logo" />
+      </a>
     </div>
     <p>© 2026 <strong>AlphaCrop</strong> · Proof of Concept · Built at RSL-SLU</p>
     <p style="margin-top:.4rem;">

@@ -34,6 +34,7 @@ function App() {
     <div className="app-wrapper">
       <header className="app-header">
         <div className="header-inner">
+          <img src="/images/rsl-logo-transparent.png" alt="RSL AlphaCrop logo" className="header-logo-img" />
           <span className="header-logo">🌿 AlphaCrop</span>
           <span className="header-title">Field Analysis App</span>
           <a
@@ -109,7 +110,10 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>© {new Date().getFullYear()} AlphaCrop · Proof of Concept</p>
+        <div className="footer-inner">
+          <img src="/images/rsl-logo-transparent.png" alt="RSL AlphaCrop logo" className="footer-logo-img" />
+          <p>© {new Date().getFullYear()} AlphaCrop · Proof of Concept</p>
+        </div>
       </footer>
     </div>
   );
