@@ -5,12 +5,12 @@ import './ModelSelector.css';
 const MODELS = [
   {
     id: 'baseline',
-    label: 'Baseline Satellite Model',
+    label: 'Baseline Multi-Source Annotated Model',
     description:
-      'Standard crop-health analysis using multispectral satellite imagery. ' +
+      'Standard crop-health analysis using annotated multispectral satellite and UAV imagery. ' +
       'Detects common disease signatures and vegetation indices (NDVI, EVI).',
     underDev: false,
-    icon: '🛰️',
+    icon: '🛰️🚁',
   },
   {
     id: 'afm',

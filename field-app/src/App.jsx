@@ -6,6 +6,7 @@ import { analyzeField } from './api.js';
 import './App.css';
 
 function App() {
+  const logoSrc = `${import.meta.env.BASE_URL}images/rsl-logo-transparent.png`;
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedModel, setSelectedModel] = useState('baseline');
   const [dataSources, setDataSources] = useState({
@@ -112,7 +113,7 @@ function App() {
         <div className="footer-branding">
           <a href="https://www.remotesensinglab.org" target="_blank" rel="noopener noreferrer">
             <img
-              src="/images/rsl-logo-transparent.png"
+              src={logoSrc}
               alt="Remote Sensing Lab logo"
               className="footer-logo"
             />

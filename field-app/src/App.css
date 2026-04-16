@@ -167,15 +167,15 @@
 
 /* ── Footer ────────────────────────────────────────────────────────────── */
 .app-footer {
-  background: #292524;
+  background: #fff;
   text-align: center;
-  padding: 1.25rem 1rem;
+  padding: 0.9rem 1rem;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.68);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  border-top: 1px solid #e2e8f0;
 }
 .app-footer strong {
-  color: #4ade80;
+  color: inherit;
 }
 .footer-branding {
   display: flex;
@@ -187,18 +187,17 @@
   width: clamp(110px, 20vw, 165px);
   height: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
 }
 .footer-github-wrap {
   margin-top: 0.4rem;
 }
 .footer-github-link {
-  color: #86efac;
+  color: #64748b;
   font-weight: 600;
   text-decoration: none;
 }
 .footer-github-link:hover {
-  color: #bbf7d0;
+  color: #475569;
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
